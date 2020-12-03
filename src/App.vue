@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <autocomplete v-model="item"
-                  :items="items"
+    <autocomplete v-model="todo"
+                  :items="todos"
+                  item-label="title"
+                  item-value="id"
+                  label="Simple Autocomplete" />
+    <autocomplete v-model="post"
+                  :items="posts"
                   :inputSearch.sync="search"
                   item-label="title"
                   item-value="id"
-                  label="label"
+                  label="Autocomplete with throttle search and v-slot"
                   :clearable="true">
-      <template v-slot:item="{item}">
+      <template v-slot:item="{ item }">
         <div class="chip">
           {{ item.title }}
         </div>
@@ -23,8 +28,10 @@ import axios from 'axios';
 export default {
   name: 'App',
   data: () => ({
-    item: null,
-    items: [],
+    post: null,
+    posts: [],
+    todo: null,
+    todos: [],
     search: ''
   }),
   components: {
@@ -34,7 +41,13 @@ export default {
     async getPosts () {
       try {
         const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-        this.items = data;
+        this.posts = data;
+      } catch (err) { console.log(err) }
+    },
+    async getTodos () {
+      try {
+        const { data } = await axios.get(`https://jsonplaceholder.typicode.com/users/1/todos`);
+        this.todos = data;
       } catch (err) { console.log(err) }
     }
   },
@@ -44,7 +57,7 @@ export default {
     }
   },
   created() {
-    this.getPosts();
+    this.getTodos();
   }
 }
 </script>
