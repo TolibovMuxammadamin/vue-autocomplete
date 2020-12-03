@@ -1,13 +1,120 @@
+*, ::after, ::before {
+  padding: 0;
+  margin: 0;
+}
 .wrapper {
   margin-bottom: 1rem;
+  position: relative;
+  font-size: 16px;
 
   label {
     display: inline-block;
     font-size: .875rem;
     margin-bottom: .5rem;
   }
-  input {
-    display: block;
-    width: 100%;
+
+  .input-group {
+    display: flex;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 8px 10px;
+      position: relative;
+      border: 1px solid rgb(133, 133, 133);
+      border-radius: 4px;
+
+      &.clearable {
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
+        padding-right: 0;
+        &:focus {
+          border: 1px solid #000;
+          border-right: 0;
+        }
+
+        &:focus + .btn-clear {
+          border: 1px solid #000;
+          border-left: 0;
+        }
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    .btn-clear {
+      font-weight: lighter;
+      background-color: transparent;
+      cursor: pointer;
+      transition: color 0.2s;
+      height: 33px;
+      width: 25px;
+      border: 1px solid rgb(133, 133, 133);
+      border-left: 0;
+      border-radius: 0 4px 4px 0;
+      position: relative;
+
+      &:hover &::after &::before {
+        color: #6e6e6e;
+      }
+
+      &::after, &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 0.8px;
+        background-color: #000;
+      }
+      &::after {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      &::before {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      &:active, &:focus {
+        outline: none;
+        color: #000;
+      }
+    }
+  }
+
+  .list {
+    position: absolute;
+    list-style: none;
+    border: 1px solid #333;
+    min-width: 100%;
+    z-index: 10;
+    background-color: #fff;
+    max-height: 250px;
+    overflow: auto;
+
+    li {
+      display: block;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      &.active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .15s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+
+  .d-none {
+    display: none;
   }
 }
